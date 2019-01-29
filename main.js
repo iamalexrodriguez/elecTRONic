@@ -14,15 +14,26 @@ let playerOneScore = 0;
 let playerTwoScore = 0;
 
 //IMP
-let snakeBorderColor = "#ffcc00";
-let snakeBorderColor2 = "#00ffff";
+let playerTwoColor = "#ffcc00";
+let playerOneColor = "#00ffff";
 
 //Snakes
 //Player = snake
-let snake2 = [{ x: 30, y: 50 }];
+
+class Player {
+  constructor(x, y, dx, dy) {
+    this.x = x;
+    this.y = y;
+    this.dx = dx;
+    this.dy = dy;
+  }
+
+  
+}
+let playerOne = [{ x: 30, y: 50 }];
 
 //Player 2 = snake
-let snake = [{ x: 200, y: 100 }];
+let playerTwo = [{ x: 200, y: 100 }];
 //Horizontal and vertical speeds
 
 //Velocidades Iniciales
@@ -58,16 +69,9 @@ introScreen();
 //Main functions
 
 function start() {
-  let countStart = 0;
-  if (countStart == 0) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (interval) return;
-    interval = setInterval(update, 1000 / 120);
-    countStart++;
-  } else {
-    location.reload();
-    ctx.restore();
-  }
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (interval) return;
+  interval = setInterval(update, 1000 / 120);
 }
 
 function nextAttempt() {
@@ -103,10 +107,10 @@ function update() {
   changingDirection = false;
   changingDirection2 = false;
   //Possible bug with clearCanvas()
-  advanceSnake();
-  drawSnake();
-  advanceSnake2();
-  drawSnake2();
+  advancePlayerOne();
+  drawPlayerOne();
+  advancePlayerTwo();
+  drawPlayerTwo();
 }
 
 function gameOver() {
@@ -136,63 +140,88 @@ function gameOver() {
 }
 
 function didGameEnd() {
-  for (let m = 1; m < snake.length; m++) {
+  for (let m = 1; m < playerTwo.length; m++) {
     //Cabeza
-    if (snake2[0].x === snake[0].x && snake2[0].y === snake[0].y) return true;
+    if (
+      playerOne[0].x === playerTwo[0].x &&
+      playerOne[0].y === playerTwo[0].y
+    ) {
+      return true;
+    }
     //
-    if (snake2[m].x === snake[0].x && snake2[m].y === snake[0].y) {
-      playerTwoScore++;
+    if (
+      playerOne[m].x === playerTwo[0].x &&
+      playerOne[m].y === playerTwo[0].y
+    ) {
+      playerOneScore++;
       return true;
     }
 
-    if (snake[m].x === snake[0].x && snake[m].y === snake[0].y) {
+    if (
+      playerTwo[m].x === playerTwo[0].x &&
+      playerTwo[m].y === playerTwo[0].y
+    ) {
       playerOneScore++;
       return true;
     }
   }
 
-  for (let l = 1; l < snake2.length; l++) {
-    if (snake[0].x === snake2[0].x && snake[0].y === snake2[0].y) return true;
-    if (snake2[l].x === snake2[0].x && snake2[l].y === snake2[0].y) return true;
-    if (snake[l].x === snake2[0].x && snake[l].y === snake2[0].y) return true;
+  for (let l = 1; l < playerOne.length; l++) {
+    if (
+      playerTwo[0].x === playerOne[0].x &&
+      playerTwo[0].y === playerOne[0].y
+    ) {
+      return true;
+    }
+    if (
+      playerOne[l].x === playerOne[0].x &&
+      playerOne[l].y === playerOne[0].y
+    ) {
+      return true;
+    }
+    if (
+      playerTwo[l].x === playerOne[0].x &&
+      playerTwo[l].y === playerOne[0].y
+    ) {
+      return true;
+    }
   }
 
   let hitWall =
-    snake[0].x < 0 ||
-    snake[0].x > canvas.width - 1 ||
-    snake[0].y < 0 ||
-    snake[0].y > canvas.height - 1;
+    playerTwo[0].x < 0 ||
+    playerTwo[0].x > canvas.width - 1 ||
+    playerTwo[0].y < 0 ||
+    playerTwo[0].y > canvas.height - 1;
 
   let hitWall2 =
-    snake2[0].x < 0 ||
-    snake2[0].x > canvas.width - 1 ||
-    snake2[0].y < 0 ||
-    snake2[0].y > canvas.height - 1;
+    playerOne[0].x < 0 ||
+    playerOne[0].x > canvas.width - 1 ||
+    playerOne[0].y < 0 ||
+    playerOne[0].y > canvas.height - 1;
 
   return hitWall || hitWall2;
 }
 //Aux Functions
 
-function advanceSnake() {
-  let head = { x: snake[0].x + dx, y: snake[0].y + dy };
-  snake.unshift(head);
+function advancePlayerOne() {
+  let headPlayerOne = { x: playerOne[0].x + dx2, y: playerOne[0].y + dy2 };
+  playerOne.unshift(headPlayerOne);
 }
-
-function drawSnake() {
-  snake.forEach(snakePart => {
-    ctx.strokeStyle = snakeBorderColor;
+function drawPlayerOne() {
+  playerOne.forEach(snakePart => {
+    ctx.strokeStyle = playerOneColor;
     ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
     ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
   });
 }
-
-function advanceSnake2() {
-  let head2 = { x: snake2[0].x + dx2, y: snake2[0].y + dy2 };
-  snake2.unshift(head2);
+function advancePlayerTwo() {
+  let headPlayerTwo = { x: playerTwo[0].x + dx, y: playerTwo[0].y + dy };
+  playerTwo.unshift(headPlayerTwo);
 }
-function drawSnake2() {
-  snake2.forEach(snakePart => {
-    ctx.strokeStyle = snakeBorderColor2;
+
+function drawPlayerTwo() {
+  playerTwo.forEach(snakePart => {
+    ctx.strokeStyle = playerTwoColor;
     ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
     ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
   });
