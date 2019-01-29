@@ -3,7 +3,6 @@ var ctx = canvas.getContext("2d");
 let startBtn = document.getElementById("startGame");
 let frameCount = document.getElementById("frameCount");
 let restartGame = document.getElementById("restartGame");
-let playerOneHTML = document.getElementById("playerOneHTML");
 
 //Global
 let interval;
@@ -20,16 +19,19 @@ let playerOneColor = "#00ffff";
 //Snakes
 //Player = snake
 
-class Player {
-  constructor(x, y, dx, dy) {
-    this.x = x;
-    this.y = y;
-    this.dx = dx;
-    this.dy = dy;
-  }
-
-  
+function advancePlayerOne() {
+  let headPlayerOne = { x: playerOne[0].x + dx2, y: playerOne[0].y + dy2 };
+  playerOne.unshift(headPlayerOne);
 }
+
+function drawPlayerOne() {
+  playerOne.forEach(snakePart => {
+    ctx.strokeStyle = playerOneColor;
+    ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
+    ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
+  });
+}
+
 let playerOne = [{ x: 30, y: 50 }];
 
 //Player 2 = snake
@@ -117,11 +119,7 @@ function gameOver() {
   clearInterval(interval);
   ctx.fillStyle = "white";
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
-  ctx.fillText(
-    "Presiona el botón para reiniciar",
-    canvas.width / 2,
-    canvas.height / 2 + 30
-  );
+  ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
   ctx.fillText(
     "Player one score: " + playerOneScore,
     canvas.width / 2,
@@ -132,11 +130,6 @@ function gameOver() {
     canvas.width / 2,
     canvas.height / 2 + 90
   );
-  //ctx.fillRect(0, 0, canvas.width, canvas.height);
-  console.log(playerOneScore);
-
-  document.getElementById("playerOne").innerHTML = "cambio" + playerOneScore;
-  //setTimeout(introScreen, 2000);
 }
 
 function didGameEnd() {
@@ -146,6 +139,7 @@ function didGameEnd() {
       playerOne[0].x === playerTwo[0].x &&
       playerOne[0].y === playerTwo[0].y
     ) {
+      //EMPATE?
       return true;
     }
     //
@@ -171,18 +165,21 @@ function didGameEnd() {
       playerTwo[0].x === playerOne[0].x &&
       playerTwo[0].y === playerOne[0].y
     ) {
+      //EMPATE?
       return true;
     }
     if (
       playerOne[l].x === playerOne[0].x &&
       playerOne[l].y === playerOne[0].y
     ) {
+      playerTwoScore++;
       return true;
     }
     if (
       playerTwo[l].x === playerOne[0].x &&
       playerTwo[l].y === playerOne[0].y
     ) {
+      playerTwoScore++;
       return true;
     }
   }
@@ -192,12 +189,23 @@ function didGameEnd() {
     playerTwo[0].x > canvas.width - 1 ||
     playerTwo[0].y < 0 ||
     playerTwo[0].y > canvas.height - 1;
+  if (hitWall) {
+    playerOneScore++;
+    console.log(playerOneScore);
+  }
+
+  //playerOneScore++;
 
   let hitWall2 =
     playerOne[0].x < 0 ||
     playerOne[0].x > canvas.width - 1 ||
     playerOne[0].y < 0 ||
     playerOne[0].y > canvas.height - 1;
+  if (hitWall2) {
+    playerTwoScore++;
+  }
+
+  //playerTwoScore++;
 
   return hitWall || hitWall2;
 }
@@ -207,6 +215,7 @@ function advancePlayerOne() {
   let headPlayerOne = { x: playerOne[0].x + dx2, y: playerOne[0].y + dy2 };
   playerOne.unshift(headPlayerOne);
 }
+
 function drawPlayerOne() {
   playerOne.forEach(snakePart => {
     ctx.strokeStyle = playerOneColor;
