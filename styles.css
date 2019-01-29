@@ -1,0 +1,65 @@
+/* @import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two'); */
+html,
+body {
+  font-family: avenir;
+  background-color: #000000;
+  color: white;
+}
+canvas {
+  border: 1px #fbf8fd solid;
+  border: 10px white solid;
+  border-radius: 15px;
+}
+
+.nonsense {
+  color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerPlayer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#playerOneScore {
+  background-color: #00ffff;
+  flex-basis: 20%;
+  text-align: center;
+  color: black;
+  margin: 0 7px 11px 0;
+  border-radius: 6px;
+}
+
+#playerTwoScore {
+  background-color: #ffcc00;
+  flex-basis: 20%;
+  text-align: center;
+  color: black;
+  margin: 0 7px 11px 0;
+  border-radius: 6px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  margin: 0 7px 11px 0;
+  padding: 0 20px;
+  text-align: center;
+
+  /* Size */
+  line-height: 45px;
+  width: 20%;
+  height: 45px;
+  font-size: 120%;
+
+  /* Colors */
+  background: #f7f7f7;
+  box-shadow: 0 6px rgba(0, 0, 0, 0.2);
+  color: #888;
+}
