@@ -3,23 +3,18 @@ var ctx = canvas.getContext("2d");
 let startBtn = document.getElementById("startGame");
 let frameCount = document.getElementById("frameCount");
 let restartGame = document.getElementById("restartGame");
+let playerOneHTML = document.getElementById("playerOneHTML");
 
 //Global
 let interval;
-let gameStarted = false;
-let isRunning = false;
 let frames = 0;
 let images = {};
-let keys = {};
-let intervalIntro;
+let score1, score2;
 let playerOneScore = 0;
 let playerTwoScore = 0;
 
 //IMP
-let GAME_SPEED = 100;
-let snakeColor = "#ffcc00";
 let snakeBorderColor = "#ffcc00";
-let snakeColor2 = "#00ffff";
 let snakeBorderColor2 = "#00ffff";
 
 //Snakes
@@ -27,12 +22,8 @@ let snakeBorderColor2 = "#00ffff";
 let snake2 = [{ x: 30, y: 50 }];
 
 //Player 2 = snake
-let snake = [{ x: 300, y: 300 }];
+let snake = [{ x: 200, y: 100 }];
 //Horizontal and vertical speeds
-
-// When set to true the snake is changing direction
-let changingDirection = false;
-let changingDirection2 = false;
 
 //Velocidades Iniciales
 let dx = 1;
@@ -40,24 +31,9 @@ let dy = 0;
 
 let dx2 = 1;
 let dy2 = 0;
-
-//Para dibujar el grid
-
-function drawBoard() {
-  for (let y = 0; y <= canvas.height; y += 10) {
-    ctx.moveTo(0, y);
-    ctx.lineTo(canvas.width, y);
-    ctx.lineWidth = 0.5;
-    ctx.strokeStyle = "lightgrey";
-    ctx.stroke();
-  }
-
-  for (let x = 0; x <= canvas.width; x += 10) {
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, canvas.height);
-    ctx.stroke();
-  }
-}
+// When set to true the snake is changing direction
+let changingDirection = false;
+let changingDirection2 = false;
 
 function introScreen() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -66,35 +42,57 @@ function introScreen() {
   ctx.textAlign = "center";
   ctx.fillText("elecTRONic", canvas.width / 2, canvas.height / 2);
   ctx.font = "20px avenir";
-  //if (frames % 50 === 0) introScreenTwo();
   setTimeout(introScreenTwo, 500);
 }
 
 function introScreenTwo() {
   ctx.fillText("Press START", canvas.width / 2, canvas.height / 2 + 50);
-  //ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 //Classes y funciones
 
-//  drawBoard();
-
 introScreen();
-
-//
-
-//limites
 
 //Instances
 
 //Main functions
 
 function start() {
-  gameStarted = true;
-  isRunning = true;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (interval) return;
-  interval = setInterval(update);
+  let countStart = 0;
+  if (countStart == 0) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (interval) return;
+    interval = setInterval(update, 1000 / 120);
+    countStart++;
+  } else {
+    location.reload();
+    ctx.restore();
+  }
+}
+
+function nextAttempt() {
+  if (playerOneScore == 1) {
+    alert("holsa");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#ffcc00";
+    ctx.fillRect = (20, 20, 150, 100);
+  } else {
+    alert("perdiste");
+  }
+
+  //  PARA NEXT ATTEMPT
+  // if (playerOneScore === 5 || playerTwoScore === 5) {
+  //   gameOver();
+  // }
+  // clearInterval(interval);
+  // interval = false;
+  // ctx.fillStyle = "white";
+  // ctx.fillText("GAME OVER", 200, 200);
+  // setTimeout(() => {
+  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //   start();
+  // }, 2000);
+  //start();
 }
 
 function update() {
@@ -112,15 +110,29 @@ function update() {
 }
 
 function gameOver() {
-  isRunning = false;
   clearInterval(interval);
   ctx.fillStyle = "white";
-  ctx.fillText("GAME OVER", 200, 200);
-  ctx.fillText("Presiona el botón para reiniciar", 200, 300);
-  ctx.fillText("Player one score: " + playerOneScore, 600, 200);
-  ctx.fillText("Player two score: " + playerTwoScore, 600, 400);
+  ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+  ctx.fillText(
+    "Presiona el botón para reiniciar",
+    canvas.width / 2,
+    canvas.height / 2 + 30
+  );
+  ctx.fillText(
+    "Player one score: " + playerOneScore,
+    canvas.width / 2,
+    canvas.height / 2 + 60
+  );
+  ctx.fillText(
+    "Player two score: " + playerTwoScore,
+    canvas.width / 2,
+    canvas.height / 2 + 90
+  );
   //ctx.fillRect(0, 0, canvas.width, canvas.height);
   console.log(playerOneScore);
+
+  document.getElementById("playerOne").innerHTML = "cambio" + playerOneScore;
+  //setTimeout(introScreen, 2000);
 }
 
 function didGameEnd() {
@@ -128,7 +140,11 @@ function didGameEnd() {
     //Cabeza
     if (snake2[0].x === snake[0].x && snake2[0].y === snake[0].y) return true;
     //
-    if (snake2[m].x === snake[0].x && snake2[m].y === snake[0].y) return true;
+    if (snake2[m].x === snake[0].x && snake2[m].y === snake[0].y) {
+      playerTwoScore++;
+      return true;
+    }
+
     if (snake[m].x === snake[0].x && snake[m].y === snake[0].y) {
       playerOneScore++;
       return true;
@@ -141,7 +157,6 @@ function didGameEnd() {
     if (snake[l].x === snake2[0].x && snake[l].y === snake2[0].y) return true;
   }
 
-  //To be refactored
   let hitWall =
     snake[0].x < 0 ||
     snake[0].x > canvas.width - 1 ||
@@ -165,7 +180,6 @@ function advanceSnake() {
 
 function drawSnake() {
   snake.forEach(snakePart => {
-    ctx.fillStyle = snakeColor;
     ctx.strokeStyle = snakeBorderColor;
     ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
     ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
@@ -178,7 +192,6 @@ function advanceSnake2() {
 }
 function drawSnake2() {
   snake2.forEach(snakePart => {
-    ctx.fillStyle = snakeColor2;
     ctx.strokeStyle = snakeBorderColor2;
     ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
     ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
@@ -202,61 +215,6 @@ restartGame.addEventListener("click", function() {
 // Call changeDirection whenever a key is pressed
 document.addEventListener("keydown", changeDirection);
 document.addEventListener("keydown", changeDirection2);
-/*
-document.addEventListener("keydown", e => {
-  console.log(e.keyCode);
-  if (e.keyCode === 37) {
-    dx = -1;
-    dy = 0;
-  }
-
-  if (e.keyCode === 39) {
-    dx = 1;
-    dy = 0;
-  }
-
-  if (e.keyCode === 38) {
-    dx = 0;
-    dy = -1;
-  }
-
-  if (e.keyCode === 40) {
-    dx = 0;
-    dy = 1;
-  }
-
-  if (e.keyCode === 65) {
-    dx2 = -1;
-    dy2 = 0;
-  }
-
-  if (e.keyCode === 68) {
-    dx2 = 1;
-    dy2 = 0;
-  }
-
-  if (e.keyCode === 87) {
-    dx2 = 0;
-    dy2 = -1;
-  }
-
-  if ((e.keyCode = 83)) {
-    dx2 = 0;
-    dy2 = 1;
-  }
-});
-
-addEventListener("keyup", e => {
-  keys[e.keyCode] = false;
-});
-*/
-
-//pass event
-
-//addEventListener()
-
-//Starting the game 8 / before
-//drawBoard();
 
 function changeDirection(event) {
   let leftKey = 37;
@@ -331,5 +289,3 @@ function changeDirection2(event) {
     dy2 = 1;
   }
 }
-
-
