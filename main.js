@@ -77,7 +77,7 @@ function introScreenTwo() {
 
 //Classes y funciones
 
-//drawBoard();
+//  drawBoard();
 
 introScreen();
 
@@ -142,26 +142,19 @@ function didGameEnd() {
   }
 
   //To be refactored
-  let hitLeftWall = snake[0].x < 0;
-  let hitRightWall = snake[0].x > canvas.width - 1;
-  let hitToptWall = snake[0].y < 0;
-  let hitBottomWall = snake[0].y > canvas.height - 1;
+  let hitWall =
+    snake[0].x < 0 ||
+    snake[0].x > canvas.width - 1 ||
+    snake[0].y < 0 ||
+    snake[0].y > canvas.height - 1;
 
-  let hitLeftWall2 = snake2[0].x < 0;
-  let hitRightWall2 = snake2[0].x > canvas.width - 1;
-  let hitToptWall2 = snake2[0].y < 0;
-  let hitBottomWall2 = snake2[0].y > canvas.height - 1;
+  let hitWall2 =
+    snake2[0].x < 0 ||
+    snake2[0].x > canvas.width - 1 ||
+    snake2[0].y < 0 ||
+    snake2[0].y > canvas.height - 1;
 
-  return (
-    hitLeftWall ||
-    hitRightWall ||
-    hitToptWall ||
-    hitBottomWall ||
-    hitLeftWall2 ||
-    hitRightWall2 ||
-    hitToptWall2 ||
-    hitBottomWall2
-  );
+  return hitWall || hitWall2;
 }
 //Aux Functions
 
@@ -171,13 +164,12 @@ function advanceSnake() {
 }
 
 function drawSnake() {
-  snake.forEach(drawSnakePart);
-}
-function drawSnakePart(snakePart) {
-  ctx.fillStyle = snakeColor;
-  ctx.strokeStyle = snakeBorderColor;
-  ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
-  ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
+  snake.forEach(snakePart => {
+    ctx.fillStyle = snakeColor;
+    ctx.strokeStyle = snakeBorderColor;
+    ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
+    ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
+  });
 }
 
 function advanceSnake2() {
@@ -185,15 +177,14 @@ function advanceSnake2() {
   snake2.unshift(head2);
 }
 function drawSnake2() {
-  snake2.forEach(drawSnakePart2);
+  snake2.forEach(snakePart => {
+    ctx.fillStyle = snakeColor2;
+    ctx.strokeStyle = snakeBorderColor2;
+    ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
+    ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
+  });
 }
 
-function drawSnakePart2(snakePart) {
-  ctx.fillStyle = snakeColor2;
-  ctx.strokeStyle = snakeBorderColor2;
-  ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
-  ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
-}
 //Listeners
 
 startBtn.addEventListener("click", function() {
@@ -340,3 +331,5 @@ function changeDirection2(event) {
     dy2 = 1;
   }
 }
+
+
