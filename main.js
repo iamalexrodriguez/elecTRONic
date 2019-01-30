@@ -1,6 +1,5 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-let frameCount = document.getElementById("frameCount");
 let restartGame = document.getElementById("restartGame");
 //let playerOneHTML = document.getElementById("playerOneScore");
 let playerTwoHTML = document.getElementById("playerTwoScore");
@@ -13,6 +12,7 @@ let images = {};
 let score1, score2;
 let playerOneScore = 0;
 let playerTwoScore = 0;
+let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3"}
 
 //IMP
 let playerTwoColor = "#ffcc00";
@@ -67,6 +67,19 @@ let playerOne = [{ x: 30, y: 50 }];
 
 //Player 2 = snake
 let playerTwo = [{ x: 200, y: 100 }];
+
+function instances(){
+  playerOne = [{ x: 30, y: 50 }];
+
+//Player 2 = snake
+  playerTwo = [{ x: 200, y: 100 }];
+  dx = 1;
+  dy = 0;
+
+  dx2 = 1;
+  dy2 = 0;
+}
+
 //Horizontal and vertical speeds
 
 //Velocidades Iniciales
@@ -133,31 +146,38 @@ function nextAttempt() {
 }
 
 function update() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
   frames++;
 
   if (didGameEnd()) return gameOver();
   changingDirection = false;
   changingDirection2 = false;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   food.draw();
+
   if(food.checkIfTouch(playerTwo)) {
+
     updateScore(0,20);
     food.newCubo = true
   }
+
+
   if(food.checkIfTouch(playerOne)) {
     updateScore(20,0);
     food.newCubo = true
   }
-
 
   advancePlayerOne();
   drawPlayerOne();
   advancePlayerTwo();
   drawPlayerTwo();
 
+
+
 }
 
 function updateScore(pointsForP1, pointsForP2){
+  audioPowerup.play()
     food.erase()
     playerOneScore += pointsForP1;
     playerTwoScore += pointsForP2;
@@ -168,6 +188,7 @@ function updateScore(pointsForP1, pointsForP2){
 
 function gameOver() {
   clearInterval(interval);
+  interval = undefined
   document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
   document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
   ctx.fillStyle = "white";
@@ -183,6 +204,27 @@ function gameOver() {
     canvas.width / 2,
     canvas.height / 2 + 90
   );
+
+  //automatic restar
+  let num = 3
+  let bliss = setInterval(()=>{
+    frames++
+    if(frames%100===0){
+      console.log("si funciono")
+      num--
+      ctx.fillText("reiniciando en : " + num, 100,100)
+      if(num<1) {
+        clearInterval(bliss)
+        instances()
+        introScreen()
+        introScreenTwo()
+      }
+    }
+
+
+  },1000/60)
+  setTimeout(start,7000)
+
 }
 
 function didGameEnd() {
@@ -295,6 +337,10 @@ function drawPlayerTwo() {
     ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
   });
 }
+
+//Sounds
+let audioPowerup = new Audio();
+audioPowerup.src = sounds.powerUp;
 
 //Listeners
 
