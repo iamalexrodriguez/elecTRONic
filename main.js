@@ -1,8 +1,10 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
-let startBtn = document.getElementById("startGame");
 let frameCount = document.getElementById("frameCount");
 let restartGame = document.getElementById("restartGame");
+//let playerOneHTML = document.getElementById("playerOneScore");
+let playerTwoHTML = document.getElementById("playerTwoScore");
+
 
 //Global
 let interval;
@@ -24,16 +26,35 @@ class Food {
   constructor() {
     this.x = 100;
     this.y = 150;
-    this.width = 5;
-    this.height = 5;
+    this.width = 10;
+    this.height = 10;
+    this.newCubo = false
     }
 
     draw() {
+      if(this.newCubo){
+        this.x = generateRandomNumber(50,600);
+        this.y = generateRandomNumber(50,400);
+        this.newCubo = false
+      }
       ctx.fillStyle ="white";
       ctx.fillRect(this.x,this.y,this.width,this.height);
+      console.log(this.x)
     }
 
+    checkIfTouch(obstacle) {
+      return (
+          this.x < obstacle[0].x &&
+          this.x + this.width > obstacle[0].x &&
+          this.y < obstacle[0].y &&
+          this.y + this.height > obstacle[0].y
+      )
+    }
 
+    erase(){
+      ctx.clearRect(this.x,this.y,this.width,this.height)
+
+    }
 }
 
 
@@ -69,7 +90,7 @@ function introScreen() {
 }
 
 function introScreenTwo() {
-  ctx.fillText("Press START", canvas.width / 2, canvas.height / 2 + 50);
+  ctx.fillText("Press ENTER to begin..", canvas.width / 2, canvas.height / 2 + 50);
 }
 
 //Classes y funciones
@@ -114,23 +135,41 @@ function nextAttempt() {
 function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   frames++;
-  if (didGameEnd()) return gameOver();
-  console.log("hola");
 
+  if (didGameEnd()) return gameOver();
   changingDirection = false;
   changingDirection2 = false;
-  //Possible bug with clearCanvas()
   food.draw();
-  //food.checkIfTouch(playerOne);
-  //if(food.checkIfTouch()) console.log("touch");
+  if(food.checkIfTouch(playerTwo)) {
+    updateScore(0,20);
+    food.newCubo = true
+  }
+  if(food.checkIfTouch(playerOne)) {
+    updateScore(20,0);
+    food.newCubo = true
+  }
+
+
   advancePlayerOne();
   drawPlayerOne();
   advancePlayerTwo();
   drawPlayerTwo();
+
+}
+
+function updateScore(pointsForP1, pointsForP2){
+    food.erase()
+    playerOneScore += pointsForP1;
+    playerTwoScore += pointsForP2;
+    document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
+    document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
+
 }
 
 function gameOver() {
   clearInterval(interval);
+  document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
+  document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
   ctx.fillStyle = "white";
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
   ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
@@ -225,9 +264,15 @@ function didGameEnd() {
 }
 //Aux Functions
 
+function generateRandomNumber(min_value , max_value)
+{
+  return Math.random() * (max_value-min_value) + min_value;
+}
+
 function advancePlayerOne() {
   let headPlayerOne = { x: playerOne[0].x + dx2, y: playerOne[0].y + dy2 };
   playerOne.unshift(headPlayerOne);
+  if(playerOne.length > 600) playerOne.pop()
 }
 
 function drawPlayerOne() {
@@ -240,6 +285,7 @@ function drawPlayerOne() {
 function advancePlayerTwo() {
   let headPlayerTwo = { x: playerTwo[0].x + dx, y: playerTwo[0].y + dy };
   playerTwo.unshift(headPlayerTwo);
+  if(playerTwo.length > 600) playerTwo.pop()
 }
 
 function drawPlayerTwo() {
@@ -252,10 +298,13 @@ function drawPlayerTwo() {
 
 //Listeners
 
-startBtn.addEventListener("click", function() {
-  console.log("start");
-  start();
-});
+
+
+addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){
+    start()
+  }
+})
 
 restartGame.addEventListener("click", function() {
   console.log("start");

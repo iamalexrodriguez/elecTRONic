@@ -4,6 +4,15 @@ body {
   font-family: avenir;
   background-color: #000000;
   color: white;
+  background: linear-gradient(132deg, darkblue, black);
+  background-size: 400% 400%;
+  animation: BackgroundGradient 15s ease infinite;
+}
+
+@keyframes BackgroundGradient  {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 canvas {
   border: 1px #fbf8fd solid;
@@ -22,7 +31,7 @@ canvas {
   justify-content: center;
   align-items: center;
 }
-#playerOneScore {
+.playerOneClass {
   background-color: #00ffff;
   flex-basis: 15%;
   text-align: center;
@@ -31,7 +40,7 @@ canvas {
   border-radius: 6px;
 }
 
-#playerTwoScore {
+.playerTwoClass {
   background-color: #ffcc00;
   flex-basis: 15%;
   text-align: center;
@@ -50,7 +59,7 @@ button {
 
   /* Size */
   line-height: 45px;
-  width: 15%;
+  width: 30%;
   height: 45px;
   font-size: 120%;
 
