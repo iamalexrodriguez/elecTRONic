@@ -19,18 +19,28 @@ let playerOneColor = "#00ffff";
 //Snakes
 //Player = snake
 
-function advancePlayerOne() {
-  let headPlayerOne = { x: playerOne[0].x + dx2, y: playerOne[0].y + dy2 };
-  playerOne.unshift(headPlayerOne);
+//Food constructor
+class Food {
+  constructor() {
+    this.x = 100;
+    this.y = 150;
+    this.width = 5;
+    this.height = 5;
+    }
+
+    draw() {
+      ctx.fillStyle ="white";
+      ctx.fillRect(this.x,this.y,this.width,this.height);
+    }
+
+
 }
 
-function drawPlayerOne() {
-  playerOne.forEach(snakePart => {
-    ctx.strokeStyle = playerOneColor;
-    ctx.fillRect(snakePart.x, snakePart.y, 1, 1);
-    ctx.strokeRect(snakePart.x, snakePart.y, 1, 1);
-  });
-}
+
+
+//Instancias
+let food = new Food();
+
 
 let playerOne = [{ x: 30, y: 50 }];
 
@@ -105,10 +115,14 @@ function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   frames++;
   if (didGameEnd()) return gameOver();
+  console.log("hola");
 
   changingDirection = false;
   changingDirection2 = false;
   //Possible bug with clearCanvas()
+  food.draw();
+  //food.checkIfTouch(playerOne);
+  //if(food.checkIfTouch()) console.log("touch");
   advancePlayerOne();
   drawPlayerOne();
   advancePlayerTwo();
