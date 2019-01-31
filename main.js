@@ -2,7 +2,7 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 let restartGame = document.getElementById("restartGame");
 let gameBg = document.getElementsByClassName("backgroundDefault");
-let instructions = document.getElementById("instructionsButton")
+let instructions = document.getElementById("instructionsButton");
 
 
 //Global
@@ -11,7 +11,7 @@ let frames = 0;
 let images = {};
 let playerOneScore = 0;
 let playerTwoScore = 0;
-let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3"}
+let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3", bgmusic: "http://soundimage.org/wp-content/uploads/2016/06/Future-RPG.mp3", pwrup: "http://soundimage.org/wp-content/uploads/2016/04/PowerUp16.mp3", touchWallSound: "http://soundbible.com/grab.php?id=1604&type=mp3", touchSnake: "http://soundimage.org/wp-content/uploads/2016/04/Laser-Shot-3.mp3"};
 let numToRestart = 3;
 let rounds = 0;
 let totalRounds = 3;
@@ -100,6 +100,7 @@ introScreen();
 //Main functions
 
 function start() {
+  bgmusic.play();
   numToRestart = 3;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (interval) return;
@@ -121,11 +122,13 @@ function update() {
   food.draw();
 
   if(food.checkIfTouch(playerTwo)) {
+    pwrup.play()
     updateScore(0,20);
     food.newCubo = true
   }
 
   if(food.checkIfTouch(playerOne)) {
+    pwrup.play()
     updateScore(20,0);
     food.newCubo = true
   }
@@ -244,7 +247,7 @@ function didGameEnd() {
       playerOne[0].x === playerTwo[0].x &&
       playerOne[0].y === playerTwo[0].y
     ) {
-      //EMPATE?
+      crashSnakeSound.play();
       return true;
     }
     //
@@ -253,7 +256,7 @@ function didGameEnd() {
       playerOne[m].y === playerTwo[0].y
     ) {
       updateScore(10,0);
-      //playerOneScore += 20;
+      crashSnakeSound.play();
       return true;
     }
 
@@ -262,7 +265,7 @@ function didGameEnd() {
       playerTwo[m].y === playerTwo[0].y
     ) {
       updateScore(10,0);
-      //playerOneScore += 20;
+      crashSnakeSound.play();
       return true;
     }
   }
@@ -272,7 +275,7 @@ function didGameEnd() {
       playerTwo[0].x === playerOne[0].x &&
       playerTwo[0].y === playerOne[0].y
     ) {
-      //EMPATE?
+      crashSnakeSound.play();
       return true;
     }
     if (
@@ -280,7 +283,7 @@ function didGameEnd() {
       playerOne[l].y === playerOne[0].y
     ) {
       updateScore(0,10);
-      //playerTwoScore += 20;
+      crashSnakeSound.play();
       return true;
     }
     if (
@@ -288,7 +291,7 @@ function didGameEnd() {
       playerTwo[l].y === playerOne[0].y
     ) {
       updateScore(0,10);
-      //playerTwoScore += 20;
+      crashSnakeSound.play();
       return true;
     }
   }
@@ -299,6 +302,7 @@ function didGameEnd() {
     playerTwo[0].y < 0 ||
     playerTwo[0].y > canvas.height - 1;
   if (hitWall) {
+    crashWallSound.play();
     updateScore(10,0);
     //playerOneScore +=20 ;
   }
@@ -309,6 +313,7 @@ function didGameEnd() {
     playerOne[0].y < 0 ||
     playerOne[0].y > canvas.height - 1;
   if (hitWall2) {
+    crashWallSound.play();
     updateScore(0,10);
     //playerTwoScore += 20;
   }
@@ -353,6 +358,19 @@ function drawPlayerTwo() {
 //Sounds
 let audioPowerup = new Audio();
 audioPowerup.src = sounds.powerUp;
+
+let bgmusic =new Audio();
+bgmusic.src = sounds.bgmusic;
+bgmusic.loop = true;
+
+let pwrup = new Audio();
+pwrup.src = sounds.pwrup;
+
+let crashWallSound = new Audio();
+crashWallSound.src = sounds.touchWallSound;
+
+let crashSnakeSound = new Audio();
+crashSnakeSound.src = sounds.touchSnake;
 
 //Listeners
 
