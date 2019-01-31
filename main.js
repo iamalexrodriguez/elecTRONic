@@ -2,6 +2,7 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 let restartGame = document.getElementById("restartGame");
 let gameBg = document.getElementsByClassName("backgroundDefault");
+let instructions = document.getElementById("instructionsButton")
 
 
 //Global
@@ -13,11 +14,12 @@ let playerTwoScore = 0;
 let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3"}
 let numToRestart = 3;
 let rounds = 0;
-let totalRounds = 5
+let totalRounds = 3;
 
 //Colors
-let playerTwoColor = "#ffcc00";
 let playerOneColor = "#00ffff";
+let playerTwoColor = "#ffcc00";
+
 
 //Snakes
 //Player = snake
@@ -25,8 +27,8 @@ let playerOneColor = "#00ffff";
 //Food constructor
 class Food {
   constructor() {
-    this.x = 100;
-    this.y = 150;
+    this.x = canvas.width/2-20;
+    this.y = 360;
     this.width = 10;
     this.height = 10;
     this.newCubo = false
@@ -63,27 +65,27 @@ class Food {
 let food = new Food();
 
 
-let playerOne = [{ x: 30, y: 50 }];
+let playerOne = [{ x: 200, y: 50 }];
 
 //Player 2 = snake
-let playerTwo = [{ x: 200, y: 100 }];
+let playerTwo = [{ x: 440, y: 50 }];
 
 function instances(){
-  playerOne = [{ x: 30, y: 50 }];
-  playerTwo = [{ x: 200, y: 100 }];
-  dx = 1;
-  dy = 0;
+  playerOne = [{ x: 200, y: 50 }];
+  playerTwo = [{ x: 420, y: 50 }];
+  dx = 0;
+  dy = 1;
 
-  dx2 = 1;
-  dy2 = 0;
+  dx2 = 0;
+  dy2 = 1;
 }
 
 //Velocidades Iniciales
-let dx = 1;
-let dy = 0;
+let dx = 0;
+let dy = 1;
 
-let dx2 = 1;
-let dy2 = 0;
+let dx2 = 0;
+let dy2 = 1;
 // When set to true the snake is changing direction
 let changingDirection = false;
 let changingDirection2 = false;
@@ -111,6 +113,7 @@ introScreen();
 //Main functions
 
 function start() {
+  numToRestart = 3;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (interval) return;
   interval = setInterval(update, 1000 / 120);
@@ -120,6 +123,7 @@ function update() {
   frames++;
   if (didGameEnd()) {
     rounds++
+    displayRoundsLeft()
     if(rounds == totalRounds)return gameOver()
     return roundOver()
   };
@@ -156,8 +160,8 @@ function updateScore(pointsForP1, pointsForP2){
     // if(playerOneScore < playerTwoScore){
     //   gameBg[0].classList.toggle("backgroundOrange")
     // }
-    document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
-    document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
+    document.getElementById("playerOneScore").innerHTML = playerOneScore;
+    document.getElementById("playerTwoScore").innerHTML = playerTwoScore;
 
 
 
@@ -169,14 +173,16 @@ function updateScore(pointsForP1, pointsForP2){
 function gameOver(){
   clearInterval(interval);
   if(playerOneScore > playerTwoScore){
-    gameBg[0].classList.toggle("backgroundBlue")
+    gameBg[0].classList.toggle("backgroundBlue");
+    document.getElementsByTagName("h1")[0].innerText = "Player One Won!";
   }
   if(playerOneScore < playerTwoScore){
     gameBg[0].classList.toggle("backgroundOrange")
+    document.getElementsByTagName("h1")[0].innerText = "Player Two Won!";
   }
-  interval = undefined
-  document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
-  document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
+  interval = undefined;
+  //document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
+  //document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
   ctx.fillStyle = "white";
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
   ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
@@ -195,8 +201,8 @@ function gameOver(){
 function roundOver() {
   clearInterval(interval);
   interval = undefined;
-  document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
-  document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
+  //document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
+  //document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
   ctx.fillStyle = "white";
   if(playerOneScore > playerTwoScore){
     let csP1 = playerOneScore - playerTwoScore
@@ -225,19 +231,21 @@ function roundOver() {
         canvas.height / 2 + 90
     );
 
-
   }
+
+
+
 
   ctx.fillText("This round is over!", canvas.width / 2, canvas.height / 2);
   //ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
 
 
-
   //automatic restart
 
   let bliss = setInterval(()=>{
+
     frames++
-    if(frames%100===0){
+    //if(frames%1000===0){
       numToRestart--;
       //ctx.clearRect(100, 100, 40, 60)
       drawCounter()
@@ -252,18 +260,26 @@ function roundOver() {
         //introScreen()
         //introScreenTwo()
       }
-    }
+    //}
 
 
-  },1000/60)
-  setTimeout(start,7000)
+  },1000)
+  setTimeout(start,3000)
 }
 
 function drawCounter(){
   ctx.clearRect(canvas.width/2-80, 160, 160,20);
   ctx.fillText("Restarting in : " + numToRestart, canvas.width / 2, canvas.height / 2 -50)
-
 }
+
+function displayRoundsLeft(){
+  let roundsLeft = totalRounds - rounds;
+  document.getElementsByTagName("h1")[0].innerText = "Rounds left: " + roundsLeft;
+  if(roundsLeft === 1){
+    document.getElementsByTagName("h1")[0].innerText = "Last round!";
+    console.log("Last round!")
+  }
+  }
 
 function didGameEnd() {
   for (let m = 1; m < playerTwo.length; m++) {
@@ -392,11 +408,17 @@ addEventListener('keydown', e=>{
   }
 })
 
+
 restartGame.addEventListener("click", function() {
   location.reload();
   ctx.restore();
   introScreen();
 });
+
+instructions.addEventListener("click", function(){
+  instructions.classList.toggle("instructionsClass")
+
+})
 
 // Call changeDirection whenever a key is pressed
 document.addEventListener("keydown", changeDirection);
@@ -413,8 +435,8 @@ function changeDirection(event) {
 
   let keyPressed = event.keyCode;
 
-  let goingUp = dy === 1;
-  let goingDown = dy === -1;
+  let goingUp = dy === -1;
+  let goingDown = dy === 1;
   let goingRight = dx === 1;
   let goingLeft = dx === -1;
 
@@ -450,8 +472,8 @@ function changeDirection2(event) {
 
   const keyPressed = event.keyCode;
 
-  let goingUp2 = dy2 === 1;
-  let goingDown2 = dy2 === -1;
+  let goingUp2 = dy2 === -1;
+  let goingDown2 = dy2 ===  1;
   let goingRight2 = dx2 === 1;
   let goingLeft2 = dx2 === -1;
 
@@ -475,3 +497,6 @@ function changeDirection2(event) {
     dy2 = 1;
   }
 }
+
+
+
