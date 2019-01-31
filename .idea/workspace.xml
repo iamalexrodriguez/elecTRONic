@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6bb0c9b-1335-4110-8345-520c07738809" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/styles.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,8 +20,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="20" column="45" lean-forward="true" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
+            <state relative-caret-position="504">
+              <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -28,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/styles.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="69">
-              <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+            <state relative-caret-position="407">
+              <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -37,11 +38,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="23">
-              <caret line="1" column="34" selection-start-line="1" selection-start-column="34" selection-end-line="1" selection-end-column="34" />
+            <state relative-caret-position="300">
+              <caret line="122" column="28" selection-start-line="122" selection-start-column="28" selection-end-line="122" selection-end-column="28" />
               <folding>
-                <element signature="e#1982#2554#0" />
+                <element signature="e#1542#1548#0" />
+                <element signature="e#1172#1442#0" />
+                <element signature="e#1470#1546#0" />
                 <element signature="e#3695#4139#0" />
+                <element signature="e#5856#5902#0" />
+                <element signature="e#4977#5092#0" />
+                <element signature="e#5119#5303#0" />
+                <element signature="e#5332#5445#0" />
+                <element signature="e#5472#5656#0" />
+                <element signature="e#6088#6681#0" />
+                <element signature="e#6716#7311#0" />
               </folding>
             </state>
           </provider>
@@ -60,9 +70,27 @@
       <find>upd</find>
       <find>genera</find>
       <find>didga</find>
-      <find>update</find>
       <find>start</find>
       <find>gameE</find>
+      <find>console</find>
+      <find>consol</find>
+      <find>pointsfor</find>
+      <find>playertwo</find>
+      <find>playertwosc</find>
+      <find>points</find>
+      <find>SI</find>
+      <find>gamebg</find>
+      <find>40</find>
+      <find>playertwosco</find>
+      <find>soun</find>
+      <find>audiop</find>
+      <find>update</find>
+      <find>toggle</find>
+      <find>numtores</find>
+      <find>reset but</find>
+      <find>rounds</find>
+      <find>gameov</find>
+      <find>player</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -72,16 +100,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/styles.css" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/main.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="840" />
+    <option name="x" value="209" />
     <option name="y" value="23" />
-    <option name="width" value="840" />
+    <option name="width" value="1471" />
     <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -131,7 +159,7 @@
       <updated>1548865380589</updated>
       <workItem from="1548865383527" duration="164000" />
       <workItem from="1548866000761" duration="101000" />
-      <workItem from="1548866122233" duration="11988000" />
+      <workItem from="1548866122233" duration="20652000" />
     </task>
     <task id="LOCAL-00001" summary="Secondary game plan, with food">
       <created>1548880941806</created>
@@ -140,17 +168,24 @@
       <option name="project" value="LOCAL" />
       <updated>1548880941806</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Back to primary game plan!">
+      <created>1548887040564</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1548887040564</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12253000" />
+    <option name="totallyTimeSpent" value="20917000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20735383" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16998191" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Messages" weight="0.3297062" />
@@ -201,30 +236,40 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Secondary game plan, with food" />
-    <option name="LAST_COMMIT_MESSAGE" value="Secondary game plan, with food" />
+    <MESSAGE value="Back to primary game plan!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Back to primary game plan!" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="20" column="45" lean-forward="true" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="45" />
+        <state relative-caret-position="407">
+          <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/styles.css">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+        <state relative-caret-position="504">
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="1" column="34" selection-start-line="1" selection-start-column="34" selection-end-line="1" selection-end-column="34" />
+        <state relative-caret-position="300">
+          <caret line="122" column="28" selection-start-line="122" selection-start-column="28" selection-end-line="122" selection-end-column="28" />
           <folding>
-            <element signature="e#1982#2554#0" />
+            <element signature="e#1542#1548#0" />
+            <element signature="e#1172#1442#0" />
+            <element signature="e#1470#1546#0" />
             <element signature="e#3695#4139#0" />
+            <element signature="e#5856#5902#0" />
+            <element signature="e#4977#5092#0" />
+            <element signature="e#5119#5303#0" />
+            <element signature="e#5332#5445#0" />
+            <element signature="e#5472#5656#0" />
+            <element signature="e#6088#6681#0" />
+            <element signature="e#6716#7311#0" />
           </folding>
         </state>
       </provider>

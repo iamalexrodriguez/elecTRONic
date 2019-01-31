@@ -1,20 +1,21 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 let restartGame = document.getElementById("restartGame");
-//let playerOneHTML = document.getElementById("playerOneScore");
-let playerTwoHTML = document.getElementById("playerTwoScore");
+let gameBg = document.getElementsByClassName("backgroundDefault");
 
 
 //Global
 let interval;
 let frames = 0;
 let images = {};
-let score1, score2;
 let playerOneScore = 0;
 let playerTwoScore = 0;
 let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3"}
+let numToRestart = 3;
+let rounds = 0;
+let totalRounds = 5
 
-//IMP
+//Colors
 let playerTwoColor = "#ffcc00";
 let playerOneColor = "#00ffff";
 
@@ -39,7 +40,6 @@ class Food {
       }
       ctx.fillStyle ="white";
       ctx.fillRect(this.x,this.y,this.width,this.height);
-      console.log(this.x)
     }
 
     checkIfTouch(obstacle) {
@@ -70,8 +70,6 @@ let playerTwo = [{ x: 200, y: 100 }];
 
 function instances(){
   playerOne = [{ x: 30, y: 50 }];
-
-//Player 2 = snake
   playerTwo = [{ x: 200, y: 100 }];
   dx = 1;
   dy = 0;
@@ -79,8 +77,6 @@ function instances(){
   dx2 = 1;
   dy2 = 0;
 }
-
-//Horizontal and vertical speeds
 
 //Velocidades Iniciales
 let dx = 1;
@@ -120,74 +116,64 @@ function start() {
   interval = setInterval(update, 1000 / 120);
 }
 
-function nextAttempt() {
-  if (playerOneScore == 1) {
-    alert("holsa");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ffcc00";
-    ctx.fillRect = (20, 20, 150, 100);
-  } else {
-    alert("perdiste");
-  }
-
-  //  PARA NEXT ATTEMPT
-  // if (playerOneScore === 5 || playerTwoScore === 5) {
-  //   gameOver();
-  // }
-  // clearInterval(interval);
-  // interval = false;
-  // ctx.fillStyle = "white";
-  // ctx.fillText("GAME OVER", 200, 200);
-  // setTimeout(() => {
-  //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //   start();
-  // }, 2000);
-  //start();
-}
-
 function update() {
-
   frames++;
+  if (didGameEnd()) {
+    rounds++
+    if(rounds == totalRounds)return gameOver()
+    return roundOver()
+  };
 
-  if (didGameEnd()) return gameOver();
   changingDirection = false;
   changingDirection2 = false;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   food.draw();
 
   if(food.checkIfTouch(playerTwo)) {
-
     updateScore(0,20);
     food.newCubo = true
   }
-
 
   if(food.checkIfTouch(playerOne)) {
     updateScore(20,0);
     food.newCubo = true
   }
-
   advancePlayerOne();
   drawPlayerOne();
   advancePlayerTwo();
   drawPlayerTwo();
-
-
-
 }
 
+
 function updateScore(pointsForP1, pointsForP2){
-  audioPowerup.play()
-    food.erase()
+    //audioPowerup.play();
+    food.erase();
     playerOneScore += pointsForP1;
     playerTwoScore += pointsForP2;
+    // if(playerOneScore > playerTwoScore){
+    //   gameBg[0].classList.toggle("backgroundBlue")
+    // }
+    // if(playerOneScore < playerTwoScore){
+    //   gameBg[0].classList.toggle("backgroundOrange")
+    // }
     document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
     document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
 
+
+
 }
 
-function gameOver() {
+
+//Esto hay que pulir
+
+function gameOver(){
   clearInterval(interval);
+  if(playerOneScore > playerTwoScore){
+    gameBg[0].classList.toggle("backgroundBlue")
+  }
+  if(playerOneScore < playerTwoScore){
+    gameBg[0].classList.toggle("backgroundOrange")
+  }
   interval = undefined
   document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
   document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
@@ -195,35 +181,87 @@ function gameOver() {
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
   ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
   ctx.fillText(
-    "Player one score: " + playerOneScore,
-    canvas.width / 2,
-    canvas.height / 2 + 60
+      "Player one score: " + playerOneScore,
+      canvas.width / 2,
+      canvas.height / 2 + 60
   );
   ctx.fillText(
-    "Player two score: " + playerTwoScore,
-    canvas.width / 2,
-    canvas.height / 2 + 90
+      "Player two score: " + playerTwoScore,
+      canvas.width / 2,
+      canvas.height / 2 + 90
   );
+}
 
-  //automatic restar
-  let num = 3
+function roundOver() {
+  clearInterval(interval);
+  interval = undefined;
+  document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
+  document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
+  ctx.fillStyle = "white";
+  if(playerOneScore > playerTwoScore){
+    let csP1 = playerOneScore - playerTwoScore
+    ctx.fillText(
+        "Player one is winning by " + csP1 + " points!",
+        canvas.width / 2,
+        canvas.height / 2 + 60
+    );
+    ctx.fillText(
+        "Player two score: " + playerTwoScore,
+        canvas.width / 2,
+        canvas.height / 2 + 90
+    );
+  }
+
+  if(playerOneScore < playerTwoScore){
+    let csP2 = playerTwoScore - playerOneScore
+    ctx.fillText(
+        "Player two is winning by " + csP2 + " points!",
+        canvas.width / 2,
+        canvas.height / 2 + 60
+    );
+    ctx.fillText(
+        "Player one score: " + playerOneScore,
+        canvas.width / 2,
+        canvas.height / 2 + 90
+    );
+
+
+  }
+
+  ctx.fillText("This round is over!", canvas.width / 2, canvas.height / 2);
+  //ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
+
+
+
+  //automatic restart
+
   let bliss = setInterval(()=>{
     frames++
     if(frames%100===0){
-      console.log("si funciono")
-      num--
-      ctx.fillText("reiniciando en : " + num, 100,100)
-      if(num<1) {
+      numToRestart--;
+      //ctx.clearRect(100, 100, 40, 60)
+      drawCounter()
+
+      //ctx.fillText("reiniciando en : " + numToRestart, 100,100)
+
+      if(numToRestart<1) {
         clearInterval(bliss)
         instances()
-        introScreen()
-        introScreenTwo()
+        drawCounter()
+        console.log("llega")
+        //introScreen()
+        //introScreenTwo()
       }
     }
 
 
   },1000/60)
   setTimeout(start,7000)
+}
+
+function drawCounter(){
+  ctx.clearRect(canvas.width/2-80, 160, 160,20);
+  ctx.fillText("Restarting in : " + numToRestart, canvas.width / 2, canvas.height / 2 -50)
 
 }
 
@@ -242,7 +280,8 @@ function didGameEnd() {
       playerOne[m].x === playerTwo[0].x &&
       playerOne[m].y === playerTwo[0].y
     ) {
-      playerOneScore++;
+      updateScore(20,0);
+      //playerOneScore += 20;
       return true;
     }
 
@@ -250,7 +289,8 @@ function didGameEnd() {
       playerTwo[m].x === playerTwo[0].x &&
       playerTwo[m].y === playerTwo[0].y
     ) {
-      playerOneScore++;
+      updateScore(20,0);
+      //playerOneScore += 20;
       return true;
     }
   }
@@ -267,14 +307,16 @@ function didGameEnd() {
       playerOne[l].x === playerOne[0].x &&
       playerOne[l].y === playerOne[0].y
     ) {
-      playerTwoScore++;
+      updateScore(0,20);
+      //playerTwoScore += 20;
       return true;
     }
     if (
       playerTwo[l].x === playerOne[0].x &&
       playerTwo[l].y === playerOne[0].y
     ) {
-      playerTwoScore++;
+      updateScore(0,20);
+      //playerTwoScore += 20;
       return true;
     }
   }
@@ -285,11 +327,9 @@ function didGameEnd() {
     playerTwo[0].y < 0 ||
     playerTwo[0].y > canvas.height - 1;
   if (hitWall) {
-    playerOneScore++;
-    console.log(playerOneScore);
+    updateScore(20,0);
+    //playerOneScore +=20 ;
   }
-
-  //playerOneScore++;
 
   let hitWall2 =
     playerOne[0].x < 0 ||
@@ -297,13 +337,13 @@ function didGameEnd() {
     playerOne[0].y < 0 ||
     playerOne[0].y > canvas.height - 1;
   if (hitWall2) {
-    playerTwoScore++;
+    updateScore(0,20);
+    //playerTwoScore += 20;
   }
-
-  //playerTwoScore++;
 
   return hitWall || hitWall2;
 }
+
 //Aux Functions
 
 function generateRandomNumber(min_value , max_value)
@@ -353,7 +393,6 @@ addEventListener('keydown', e=>{
 })
 
 restartGame.addEventListener("click", function() {
-  console.log("start");
   location.reload();
   ctx.restore();
   introScreen();

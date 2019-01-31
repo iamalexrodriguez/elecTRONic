@@ -4,9 +4,32 @@ body {
   font-family: avenir;
   background-color: #000000;
   color: white;
+  padding: 0;
+  margin: 0;
+}
+
+.backgroundDefault{
+  height: 100vh;
   background: linear-gradient(132deg, darkblue, black);
   background-size: 400% 400%;
   animation: BackgroundGradient 15s ease infinite;
+  transition: all 1s linear;
+}
+
+.backgroundBlue{
+  height: 100vh;
+  background: linear-gradient(132deg, mediumblue, darkblue);
+  background-size: 400% 400%;
+  animation: BackgroundGradient 15s ease infinite;
+  transition: all 1s linear;
+}
+
+.backgroundOrange{
+  height: 100vh;
+  background: linear-gradient(132deg, peru, darkgoldenrod);
+  background-size: 400% 400%;
+  animation: BackgroundGradient 15s ease infinite;
+  transition: all 1s linear;
 }
 
 @keyframes BackgroundGradient  {
@@ -15,7 +38,6 @@ body {
   100% {background-position: 0% 50%;}
 }
 canvas {
-  border: 1px #fbf8fd solid;
   border: 6px white solid;
   border-radius: 15px;
 }
