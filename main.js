@@ -15,14 +15,9 @@ let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3"}
 let numToRestart = 3;
 let rounds = 0;
 let totalRounds = 3;
-
 //Colors
 let playerOneColor = "#00ffff";
 let playerTwoColor = "#ffcc00";
-
-
-//Snakes
-//Player = snake
 
 //Food constructor
 class Food {
@@ -60,14 +55,9 @@ class Food {
 }
 
 
-
 //Instancias
 let food = new Food();
-
-
 let playerOne = [{ x: 200, y: 50 }];
-
-//Player 2 = snake
 let playerTwo = [{ x: 440, y: 50 }];
 
 function instances(){
@@ -75,7 +65,6 @@ function instances(){
   playerTwo = [{ x: 420, y: 50 }];
   dx = 0;
   dy = 1;
-
   dx2 = 0;
   dy2 = 1;
 }
@@ -108,8 +97,6 @@ function introScreenTwo() {
 
 introScreen();
 
-//Instances
-
 //Main functions
 
 function start() {
@@ -122,11 +109,11 @@ function start() {
 function update() {
   frames++;
   if (didGameEnd()) {
-    rounds++
-    displayRoundsLeft()
-    if(rounds == totalRounds)return gameOver()
+    rounds++;
+    displayRoundsLeft();
+    if(rounds === totalRounds)return gameOver();
     return roundOver()
-  };
+  }
 
   changingDirection = false;
   changingDirection2 = false;
@@ -154,17 +141,8 @@ function updateScore(pointsForP1, pointsForP2){
     food.erase();
     playerOneScore += pointsForP1;
     playerTwoScore += pointsForP2;
-    // if(playerOneScore > playerTwoScore){
-    //   gameBg[0].classList.toggle("backgroundBlue")
-    // }
-    // if(playerOneScore < playerTwoScore){
-    //   gameBg[0].classList.toggle("backgroundOrange")
-    // }
     document.getElementById("playerOneScore").innerHTML = playerOneScore;
     document.getElementById("playerTwoScore").innerHTML = playerTwoScore;
-
-
-
 }
 
 
@@ -181,8 +159,6 @@ function gameOver(){
     document.getElementsByTagName("h1")[0].innerText = "Player Two Won!";
   }
   interval = undefined;
-  //document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
-  //document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
   ctx.fillStyle = "white";
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
   ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
@@ -201,8 +177,6 @@ function gameOver(){
 function roundOver() {
   clearInterval(interval);
   interval = undefined;
-  //document.getElementById("playerOneScore").innerHTML = "Current score: " + playerOneScore;
-  //document.getElementById("playerTwoScore").innerHTML = "Current score: " + playerTwoScore;
   ctx.fillStyle = "white";
   if(playerOneScore > playerTwoScore){
     let csP1 = playerOneScore - playerTwoScore
@@ -219,7 +193,7 @@ function roundOver() {
   }
 
   if(playerOneScore < playerTwoScore){
-    let csP2 = playerTwoScore - playerOneScore
+    let csP2 = playerTwoScore - playerOneScore;
     ctx.fillText(
         "Player two is winning by " + csP2 + " points!",
         canvas.width / 2,
@@ -233,37 +207,19 @@ function roundOver() {
 
   }
 
-
-
-
   ctx.fillText("This round is over!", canvas.width / 2, canvas.height / 2);
-  //ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
-
-
   //automatic restart
 
   let bliss = setInterval(()=>{
-
-    frames++
-    //if(frames%1000===0){
+    frames++;
       numToRestart--;
-      //ctx.clearRect(100, 100, 40, 60)
-      drawCounter()
-
-      //ctx.fillText("reiniciando en : " + numToRestart, 100,100)
-
+      drawCounter();
       if(numToRestart<1) {
-        clearInterval(bliss)
-        instances()
-        drawCounter()
-        console.log("llega")
-        //introScreen()
-        //introScreenTwo()
+        clearInterval(bliss);
+        instances();
+        drawCounter();
       }
-    //}
-
-
-  },1000)
+  },1000);
   setTimeout(start,3000)
 }
 
@@ -296,7 +252,7 @@ function didGameEnd() {
       playerOne[m].x === playerTwo[0].x &&
       playerOne[m].y === playerTwo[0].y
     ) {
-      updateScore(20,0);
+      updateScore(10,0);
       //playerOneScore += 20;
       return true;
     }
@@ -305,7 +261,7 @@ function didGameEnd() {
       playerTwo[m].x === playerTwo[0].x &&
       playerTwo[m].y === playerTwo[0].y
     ) {
-      updateScore(20,0);
+      updateScore(10,0);
       //playerOneScore += 20;
       return true;
     }
@@ -323,7 +279,7 @@ function didGameEnd() {
       playerOne[l].x === playerOne[0].x &&
       playerOne[l].y === playerOne[0].y
     ) {
-      updateScore(0,20);
+      updateScore(0,10);
       //playerTwoScore += 20;
       return true;
     }
@@ -331,7 +287,7 @@ function didGameEnd() {
       playerTwo[l].x === playerOne[0].x &&
       playerTwo[l].y === playerOne[0].y
     ) {
-      updateScore(0,20);
+      updateScore(0,10);
       //playerTwoScore += 20;
       return true;
     }
@@ -343,7 +299,7 @@ function didGameEnd() {
     playerTwo[0].y < 0 ||
     playerTwo[0].y > canvas.height - 1;
   if (hitWall) {
-    updateScore(20,0);
+    updateScore(10,0);
     //playerOneScore +=20 ;
   }
 
@@ -353,7 +309,7 @@ function didGameEnd() {
     playerOne[0].y < 0 ||
     playerOne[0].y > canvas.height - 1;
   if (hitWall2) {
-    updateScore(0,20);
+    updateScore(0,10);
     //playerTwoScore += 20;
   }
 
@@ -400,13 +356,11 @@ audioPowerup.src = sounds.powerUp;
 
 //Listeners
 
-
-
 addEventListener('keydown', e=>{
   if(e.key === 'Enter'){
     start()
   }
-})
+});
 
 
 restartGame.addEventListener("click", function() {
@@ -418,7 +372,7 @@ restartGame.addEventListener("click", function() {
 instructions.addEventListener("click", function(){
   instructions.classList.toggle("instructionsClass")
 
-})
+});
 
 // Call changeDirection whenever a key is pressed
 document.addEventListener("keydown", changeDirection);
