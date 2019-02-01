@@ -17,7 +17,7 @@ h3{
 }
 
 h4{
-  font-size:200%;
+  font-size:100%;
 }
 
 
@@ -99,11 +99,28 @@ button {
 }
 
 
-.instructionsClass{
-  position:absolute;
-  left: 40%;
-  top: 150px;
-  background-color:rgba(0, 0, 255, 0.6);
+#instructions{
+  position:fixed;
+  z-index: 1;
+  display: none;
+  top: 50%;
+  left: 50%;
+  margin-top: -450px; /* Negative half of height. */
+  margin-left: -200px;
+  background-color:rgba(0, 139, 0, 0.95);
   width:400px;
   height:500px;
+  border-radius: 5%;
+}
+
+.signature{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  margin-left:-200px;
+  display: none;
+  text-align:center;
+  line-height: 5px;
+  font-size:12px;
+
 }

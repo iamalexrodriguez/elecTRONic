@@ -2,7 +2,8 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 let restartGame = document.getElementById("restartGame");
 let gameBg = document.getElementsByClassName("backgroundDefault");
-let instructions = document.getElementById("instructionsButton");
+let instructionsBtn = document.getElementById("instructionsButton");
+let instructionsDiv = document.getElementById("instructions");
 
 
 //Global
@@ -392,8 +393,12 @@ restartGame.addEventListener("click", function() {
   introScreen();
 });
 
-instructions.addEventListener("click", function(){
-  instructions.classList.toggle("instructionsClass")
+instructionsBtn.addEventListener("click", function(){
+  if (instructionsDiv.style.display === "none"){
+    instructionsDiv.style.display = "block";
+  } else {
+    instructionsDiv.style.display = "none";
+  }
 
 });
 
