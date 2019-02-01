@@ -15,6 +15,7 @@ let sounds = {powerUp: "http://soundbible.com/mp3/Power-Up-KP-1879176533.mp3", b
 let numToRestart = 3;
 let rounds = 0;
 let totalRounds = 3;
+let gameOn = false;
 //Colors
 let playerOneColor = "#00ffff";
 let playerTwoColor = "#ffcc00";
@@ -53,7 +54,12 @@ class Food {
 
     }
 }
+//Velocidades Iniciales
+let dx = 1;
+let dy = 1;
 
+let dx2 = -1;
+let dy2 = 1;
 
 //Instancias
 let food = new Food();
@@ -63,18 +69,13 @@ let playerTwo = [{ x: 440, y: 50 }];
 function instances(){
   playerOne = [{ x: 200, y: 50 }];
   playerTwo = [{ x: 420, y: 50 }];
-  dx = 0;
+  dx = 1;
   dy = 1;
-  dx2 = 0;
+  dx2 = -1;
   dy2 = 1;
 }
 
-//Velocidades Iniciales
-let dx = 0;
-let dy = 1;
 
-let dx2 = 0;
-let dy2 = 1;
 // When set to true the snake is changing direction
 let changingDirection = false;
 let changingDirection2 = false;
@@ -100,6 +101,7 @@ introScreen();
 //Main functions
 
 function start() {
+  gameOn = true;
   bgmusic.play();
   numToRestart = 3;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -122,7 +124,7 @@ function update() {
   food.draw();
 
   if(food.checkIfTouch(playerTwo)) {
-    pwrup.play()
+    pwrup.play();
     updateScore(0,20);
     food.newCubo = true
   }
@@ -152,6 +154,7 @@ function updateScore(pointsForP1, pointsForP2){
 //Esto hay que pulir
 
 function gameOver(){
+  gameOn = true;
   clearInterval(interval);
   if(playerOneScore > playerTwoScore){
     gameBg[0].classList.toggle("backgroundBlue");
@@ -164,7 +167,7 @@ function gameOver(){
   interval = undefined;
   ctx.fillStyle = "white";
   ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
-  ctx.fillText("Press reset button", canvas.width / 2, canvas.height / 2 + 30);
+  ctx.fillText("Press RESET button", canvas.width / 2, canvas.height / 2 + 30);
   ctx.fillText(
       "Player one score: " + playerOneScore,
       canvas.width / 2,
@@ -178,6 +181,7 @@ function gameOver(){
 }
 
 function roundOver() {
+  gameOn = true;
   clearInterval(interval);
   interval = undefined;
   ctx.fillStyle = "white";
@@ -375,8 +379,9 @@ crashSnakeSound.src = sounds.touchSnake;
 //Listeners
 
 addEventListener('keydown', e=>{
-  if(e.key === 'Enter'){
-    start()
+  if (e.key === 'Enter') {
+    console.log(gameOn, interval);
+    if(!gameOn && !interval) return start();
   }
 });
 
